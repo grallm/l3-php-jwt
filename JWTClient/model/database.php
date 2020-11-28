@@ -3,9 +3,9 @@
 $dsn = "mysql:host=localhost;dbname=JWTClient";
 $dbUsername = "root";
 $dbPassword = "root";
- 
+
 try {
-   $db = new PDO($dsn, $username, $password);
+   $db = new PDO($dsn, $dbUsername, $dbPassword);
    //set up error reporting on server
    $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

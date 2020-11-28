@@ -1,7 +1,7 @@
 <?php
 /**
  * Check if user logins are correct
- * @return boolean true if correct pair login/password
+ * @return user user if found, NULL if not
  */
 function checkLogin(string $login, string $password)
 {
@@ -14,8 +14,44 @@ function checkLogin(string $login, string $password)
       ':login' => $login,
       ':password' => $password
     ]);
-    $results = $statement->fetch();
-    $statement->closeCursor();
+    $result = $statement->fetch();
 
-    return count($results) == 1;
+    return $statement->rowCount() == 1 ? $result : null;
+}
+
+/**
+ * Register a user to the DB and ask for an API Key to server
+ * @throws Exception if login already used
+ * @return user user if inserted, NULL if not
+ */
+function register(string $login, string $password)
+{
+    global $db;
+
+    $query = "INSERT INTO users (jwt_api_key, login, password) VALUES (?, ?, ?)";
+
+    $statement = $db->prepare($query);
+
+    try {
+      $statement->execute([
+        NULL,
+        $login,
+        $password
+      ]);
+    } catch (Exception $err) {
+      // Login already used
+      if ($statement->errorInfo()[1] == 1062) {
+        throw new Exception();
+      }
+
+      // Other exception
+      return null;
+    }
+
+    return array(
+      'id' => $db->lastInsertId(),
+      'login' => $login,
+      'password' => $password,
+      'jwt_api_key' => NULL
+    );
 }
