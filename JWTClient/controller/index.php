@@ -88,6 +88,17 @@ switch ($action) {
     session_destroy();
     require_once '../view/login.php';
     break;
+
+  case 'allCars':
+    /* LIST ALL CARS */
+    if (!isset($_SESSION['user'])) {
+      require_once '../view/login.php';
+    }
+
+    $cars = json_decode($soapClient->getAllCars($_SESSION['user']['jwt_api_key']));
+
+    require_once '../view/allCars.php';
+    break;
     
   default:
     require_once '../view/home.php';
