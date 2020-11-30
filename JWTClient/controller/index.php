@@ -5,7 +5,7 @@ require_once '../model/users.php';
 
 session_start();
 
-$client = new SoapClient("../../JWTServer/cars.wsdl", array('cache_wsdl' => WSDL_CACHE_NONE));
+$soapClient = new SoapClient("../../JWTServer/cars.wsdl", array('cache_wsdl' => WSDL_CACHE_NONE));
 
 $action = isset($_GET['action']) ? $_GET['action'] : '';
 
@@ -45,7 +45,7 @@ switch ($action) {
 
     if (isset($_POST['login']) && isset($_POST['password'])) {
       // Try to register on Server and get JWT API key
-      $apiKey = $client->registerUser();
+      $apiKey = $soapClient->registerUser();
       if (!empty($apiKey)) {
         // Check if register worked
         try {
@@ -62,7 +62,7 @@ switch ($action) {
         }
       } else {
         $response = json_decode($apiKey);
-        $_SESSION['error'] = isset($response['error']) ? $response['error'] : 'Registration failed on server';
+        $_SESSION['error'] = isset($response['error']) ? $response['error']['message'] : 'Registration failed on server';
       }
       
       // Other errors

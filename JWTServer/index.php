@@ -17,12 +17,12 @@ try {
 
 /**
  * Find a user from a JWT key
- * @return user returns user if found, null if not
+ * @return user|null returns user if found, null if not
  */
 function getUserFromJwt($jwtKey) {
   global $db;
 
-  $query = "SELECT * FROM users WHERE key = ?";
+  $query = "SELECT * FROM users WHERE jwt_api_key = ?";
 
   $statement = $db->prepare($query);
   $statement->execute([$jwtKey]);
@@ -50,6 +50,60 @@ function registerUser() {
 }
 
 /**
+ * Subscribe user for Premium for 1 month more
+ * @return datetime Premium expiry date 
+ */
+function subscribePremium($jwtKey) {
+  global $db;
+
+  // Checking Key validity
+  $user = getUserFromJwt($jwtKey);
+  if (is_null($user)) {
+    return json_encode([
+      'error' => [
+        'message' => 'Invalid API Key',
+        'code' => '0'
+      ]
+    ]);
+  }
+
+  // If null set date to now
+  $expiryDate = new DateTime(is_null($user['premium_expires']) ? 'now' : $user['premium_expires']);
+
+  // Set expiry date to next month
+  $expiryDate->add(new DateInterval('P1M'));
+
+  $query = "UPDATE users SET premium_expires = ? WHERE id = ?";
+
+  $statement = $db->prepare($query);
+  $statement->execute([
+    $expiryDate->format('Y-m-d'),
+    $user['id']
+  ]);
+
+  return $expiryDate->format('Y-m-d');
+}
+
+/**
+ * Get user's Premium expiry date
+ * @return datetime|null Premium expiry date
+ */
+function getUserPremiumExpiry($jwtKey) {
+  // Checking Key validity
+  $user = getUserFromJwt($jwtKey);
+  if (is_null($user)) {
+    return json_encode([
+      'error' => [
+        'message' => 'Invalid API Key',
+        'code' => '0'
+      ]
+    ]);
+  }
+
+  return $user['premium_expires'];
+}
+
+/**
  * Get all cars
  * 
  * @return array All cars found 
@@ -61,7 +115,10 @@ function getAllCars($jwtKey) {
   $user = getUserFromJwt($jwtKey);
   if (is_null($user)) {
     return json_encode([
-      'error' => 'Invalid API Key'
+      'error' => [
+        'message' => 'Invalid API Key',
+        'code' => '0'
+      ]
     ]);
   }
 
@@ -88,7 +145,10 @@ function getConstructorCars($jwtKey, $constructor) {
   $user = getUserFromJwt($jwtKey);
   if (is_null($user)) {
     return json_encode([
-      'error' => 'Invalid API Key'
+      'error' => [
+        'message' => 'Invalid API Key',
+        'code' => '0'
+      ]
     ]);
   }
 
@@ -117,7 +177,10 @@ function getCarsEngineConstructor($jwtKey, $constructor, $engine) {
   $user = getUserFromJwt($jwtKey);
   if (is_null($user)) {
     return json_encode([
-      'error' => 'Invalid API Key'
+      'error' => [
+        'message' => 'Invalid API Key',
+        'code' => '0'
+      ]
     ]);
   }
 
@@ -136,6 +199,8 @@ function getCarsEngineConstructor($jwtKey, $constructor, $engine) {
 ini_set("soap.wsdl_cache_enabled", 0);
 $server = new SoapServer("cars.wsdl");
 $server->addFunction("registerUser");
+$server->addFunction("subscribePremium");
+$server->addFunction("getUserPremiumExpiry");
 $server->addFunction("getAllCars");
 $server->addFunction("getConstructorCars");
 $server->addFunction("getCarsEngineConstructor");

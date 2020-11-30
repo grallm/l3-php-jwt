@@ -9,6 +9,20 @@
   <message name="registerUserResponse">
     <part name="Result" type="xsd:string" />
   </message>
+  <!-- subscribePremium Req/Res -->
+  <message name="subscribePremiumRequest">
+    <part name="apiKey" type="xsd:string" />
+  </message>
+  <message name="subscribePremiumResponse">
+    <part name="Result" type="xsd:string" />
+  </message>
+  <!-- getUserPremiumExpiry Req/Res -->
+  <message name="getUserPremiumExpiryRequest">
+    <part name="apiKey" type="xsd:string" />
+  </message>
+  <message name="getUserPremiumExpiryResponse">
+    <part name="Result" type="xsd:string" />
+  </message>
   <!-- getAllCars Req/Res -->
   <message name="getAllCarsRequest">
     <part name="apiKey" type="xsd:string" />
@@ -39,6 +53,14 @@
       <input message="tns:registerUserRequest" />
       <output message="tns:registerUserResponse" />
     </operation>
+    <operation name="subscribePremium">
+      <input message="tns:subscribePremiumRequest" />
+      <output message="tns:subscribePremiumResponse" />
+    </operation>
+    <operation name="getUserPremiumExpiry">
+      <input message="tns:getUserPremiumExpiryRequest" />
+      <output message="tns:getUserPremiumExpiryResponse" />
+    </operation>
     <operation name="getAllCars">
       <input message="tns:getAllCarsRequest" />
       <output message="tns:getAllCarsResponse" />
@@ -57,6 +79,34 @@
     <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
     <operation name="registerUser">
       <soap:operation soapAction="urn:localhost-Results#registerUser" />
+
+      <input>
+      <soap:body use="encoded" namespace="urn:localhost-Results"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </input>
+
+      <output>
+        <soap:body use="encoded" namespace="urn:localhost-Results"
+          encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </output>
+    </operation>
+
+    <operation name="subscribePremium">
+      <soap:operation soapAction="urn:localhost-Results#subscribePremium" />
+
+      <input>
+      <soap:body use="encoded" namespace="urn:localhost-Results"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </input>
+
+      <output>
+        <soap:body use="encoded" namespace="urn:localhost-Results"
+          encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </output>
+    </operation>
+
+    <operation name="getUserPremiumExpiry">
+      <soap:operation soapAction="urn:localhost-Results#getUserPremiumExpiry" />
 
       <input>
       <soap:body use="encoded" namespace="urn:localhost-Results"
