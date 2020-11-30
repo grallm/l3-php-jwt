@@ -12,10 +12,10 @@ if ($whichPage == 'constructorCars' || $whichPage == 'engineConstructorCars') {
     <?php
     foreach ($constructors as $constructor) {
       // Selected if constructor and default = all
-      $selected = isset($_POST['constructor']) && isset($_POST['constructor']) == $constructor
+      $selected = isset($_POST['constructor']) && $_POST['constructor'] == $constructor
         ? 'selected'
         : ($constructor == 'All' ? 'selected' : '');
-      echo '<option value="' . $constructor . '">' . $constructor . '</option>';
+      echo '<option value="' . $constructor . '" ' . $selected . '>' . $constructor . '</option>';
     }
     ?>
   </select>
@@ -26,14 +26,16 @@ if ($whichPage == 'constructorCars' || $whichPage == 'engineConstructorCars') {
       <?php
       foreach ($engines as $engine) {
         // Selected if constructor and default = all
-        $selected = isset($_POST['engine']) && isset($_POST['engine']) == $engine
+        $selected = isset($_POST['engine']) && $_POST['engine'] == $engine
           ? 'selected'
           : ($engine == 'All' ? 'selected' : '');
-        echo '<option value="' . $engine . '">' . $engine . '</option>';
+        echo '<option value="' . $engine . '" ' . $selected . '>' . $engine . '</option>';
       }
       ?>
     </select>
   <?php } ?>
+
+  <input class="mt-3 btn btn-primary" type="submit" value="Search" />
 </form>
 <?php } ?>
 

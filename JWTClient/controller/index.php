@@ -108,7 +108,10 @@ switch ($action) {
     }
 
     $whichPage = 'constructorCars';
-    $cars = json_decode($soapClient->getConstructorCars($_SESSION['user']['jwt_api_key']));
+    $cars = json_decode($soapClient->getConstructorCars(
+      $_SESSION['user']['jwt_api_key'],
+      is_null($_POST['constructor']) ? 'All' : $_POST['constructor']
+    ));
 
     require_once '../view/displayCars.php';
     break;
@@ -120,7 +123,11 @@ switch ($action) {
     }
 
     $whichPage = 'engineConstructorCars';
-    $cars = json_decode($soapClient->getConstructorCars($_SESSION['user']['jwt_api_key']));
+    $cars = json_decode($soapClient->getCarsEngineConstructor(
+      $_SESSION['user']['jwt_api_key'],
+      is_null($_POST['constructor']) ? 'All' : $_POST['constructor'],
+      is_null($_POST['engine']) ? 'All' : $_POST['engine']
+    ));
 
     require_once '../view/displayCars.php';
     break;

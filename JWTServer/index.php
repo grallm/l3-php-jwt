@@ -152,10 +152,10 @@ function getConstructorCars($jwtKey, $constructor) {
     ]);
   }
 
-  $query = "SELECT * FROM cars WHERE constructor = :constructor";
+  $query = "SELECT * FROM cars WHERE constructor LIKE :constructor";
 
   $statement = $db->prepare($query);
-  $statement->bindValue(':constructor', $constructor);
+  $statement->bindValue(':constructor', is_null($constructor) || empty($constructor) || $constructor == 'All' ? '%' : $constructor);
   $statement->execute();
   $result = $statement->fetchAll();
   $statement->closeCursor();
@@ -184,11 +184,11 @@ function getCarsEngineConstructor($jwtKey, $constructor, $engine) {
     ]);
   }
 
-  $query = "SELECT * FROM cars WHERE constructor = :constructor AND engine = :engine";
+  $query = "SELECT * FROM cars WHERE constructor LIKE :constructor AND engine LIKE :engine";
 
   $statement = $db->prepare($query);
-  $statement->bindValue(':constructor', $constructor);
-  $statement->bindValue(':engine', $engine);
+  $statement->bindValue(':constructor', is_null($constructor) || empty($constructor) || $constructor == 'All' ? '%' : $constructor);
+  $statement->bindValue(':engine', is_null($engine) || empty($engine) || $engine == 'All' ? '%' : $engine);
   $statement->execute();
   $result = $statement->fetchAll();
   $statement->closeCursor();
