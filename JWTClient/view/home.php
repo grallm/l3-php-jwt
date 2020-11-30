@@ -54,7 +54,7 @@
           </span>
         ' ?>
     </div>
-    <a class="btn btn-outline-primary btn-sm ml-lg-2">Subscribe 1 month</a>
+    <a class="btn btn-outline-primary btn-sm ml-lg-2" href="?action=premium">Subscribe 1 month</a>
   </div>
 </nav>
 

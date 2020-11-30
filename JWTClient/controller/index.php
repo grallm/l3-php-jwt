@@ -72,6 +72,17 @@ switch ($action) {
     require_once '../view/register.php';
     break;
 
+  case 'premium':
+    /* SUBSCRIBE 1 MONTH PREMIUM */
+    if (!isset($_SESSION['user'])) {
+      require_once '../view/login.php';
+    }
+
+    $soapClient->subscribePremium($_SESSION['user']['jwt_api_key']);
+    
+    header("Location: index.php");
+    break;
+
   case 'disconnect':
     /* DISCONNECT */
     session_destroy();
