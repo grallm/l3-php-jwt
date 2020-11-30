@@ -95,11 +95,36 @@ switch ($action) {
       require_once '../view/login.php';
     }
 
+    $whichPage = 'allCars';
     $cars = json_decode($soapClient->getAllCars($_SESSION['user']['jwt_api_key']));
 
-    require_once '../view/allCars.php';
+    require_once '../view/displayCars.php';
     break;
-    
+
+  case 'constructorCars':
+    /* LIST CARS FROM CONSTRUCTORS */
+    if (!isset($_SESSION['user'])) {
+      require_once '../view/login.php';
+    }
+
+    $whichPage = 'constructorCars';
+    $cars = json_decode($soapClient->getConstructorCars($_SESSION['user']['jwt_api_key']));
+
+    require_once '../view/displayCars.php';
+    break;
+
+  case 'engineConstructorCars':
+    /* LIST CARS FROM CONSTRUCTORS */
+    if (!isset($_SESSION['user'])) {
+      require_once '../view/login.php';
+    }
+
+    $whichPage = 'engineConstructorCars';
+    $cars = json_decode($soapClient->getConstructorCars($_SESSION['user']['jwt_api_key']));
+
+    require_once '../view/displayCars.php';
+    break;
+
   default:
     require_once '../view/home.php';
 }

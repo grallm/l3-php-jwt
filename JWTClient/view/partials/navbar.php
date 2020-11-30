@@ -28,6 +28,12 @@
       <li class="nav-item <?php echo $whichPage == 'allCars' ? 'active' : '' ?>">
         <a class="nav-link" href="?action=allCars">All cars</a>
       </li>
+      <li class="nav-item <?php echo $whichPage == 'constructorCars' ? 'active' : '' ?>">
+        <a class="nav-link" href="?action=constructorCars">Constructors</a>
+      </li>
+      <li class="nav-item <?php echo $whichPage == 'engineConstructorCars' ? 'active' : '' ?>">
+        <a class="nav-link" href="?action=engineConstructorCars">Constructors and Engines</a>
+      </li>
     </ul>
 
     <div>
