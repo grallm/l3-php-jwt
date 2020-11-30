@@ -24,7 +24,7 @@ function checkLogin(string $login, string $password)
  * @throws Exception if login already used
  * @return user user if inserted, NULL if not
  */
-function register(string $login, string $password)
+function register(string $login, string $password, string $apiKey)
 {
     global $db;
 
@@ -34,7 +34,7 @@ function register(string $login, string $password)
 
     try {
       $statement->execute([
-        NULL,
+        $apiKey,
         $login,
         $password
       ]);

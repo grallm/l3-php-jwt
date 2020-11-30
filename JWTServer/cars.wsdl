@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<definitions name='Results' targetNamespace='http://localhost:8080/provider/Results'
+  xmlns:tns="http://localhost:8080/provider/Results" xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/'
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+  <!-- registerUser Req/Res -->
+  <message name="registerUserRequest" type="Void"/>
+  <message name="registerUserResponse">
+    <part name="Result" type="xsd:string" />
+  </message>
+  <!-- getAllCars Req/Res -->
+  <message name="getAllCarsRequest">
+    <part name="apiKey" type="xsd:string" />
+  </message>
+  <message name="getAllCarsResponse">
+    <part name="Result" type="xsd:string" />
+  </message>
+  <!-- getConstructorCars Req/Res -->
+  <message name="getConstructorCarsRequest">
+    <part name="apiKey" type="xsd:string" />
+    <part name="constructor" type="xsd:string" />
+  </message>
+  <message name="getConstructorCarsResponse">
+    <part name="Result" type="xsd:string" />
+  </message>
+  <!-- getCarsEngineConstructor Req/Res -->
+  <message name="getCarsEngineConstructorRequest">
+    <part name="apiKey" type="xsd:string" />
+    <part name="constructor" type="xsd:string" />
+    <part name="engine" type="xsd:string" />
+  </message>
+  <message name="getCarsEngineConstructorResponse">
+    <part name="Result" type="xsd:string" />
+  </message>
+
+  <portType name="ResultsPortType">
+    <operation name="registerUser">
+      <input message="tns:registerUserRequest" />
+      <output message="tns:registerUserResponse" />
+    </operation>
+    <operation name="getAllCars">
+      <input message="tns:getAllCarsRequest" />
+      <output message="tns:getAllCarsResponse" />
+    </operation>
+    <operation name="getConstructorCars">
+      <input message="tns:getConstructorCarsRequest" />
+      <output message="tns:getConstructorCarsResponse" />
+    </operation>
+    <operation name="getCarsEngineConstructor">
+      <input message="tns:getCarsEngineConstructorRequest" />
+      <output message="tns:getCarsEngineConstructorResponse" />
+    </operation>
+  </portType>
+
+  <binding name="ResultsBinding" type="tns:ResultsPortType">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="registerUser">
+      <soap:operation soapAction="urn:localhost-Results#registerUser" />
+
+      <input>
+      <soap:body use="encoded" namespace="urn:localhost-Results"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </input>
+
+      <output>
+        <soap:body use="encoded" namespace="urn:localhost-Results"
+          encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </output>
+    </operation>
+
+    <operation name="getAllCars">
+      <soap:operation soapAction="urn:localhost-Results#getAllCars" />
+
+      <input>
+      <soap:body use="encoded" namespace="urn:localhost-Results"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </input>
+
+      <output>
+        <soap:body use="encoded" namespace="urn:localhost-Results"
+          encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </output>
+    </operation>
+
+    <operation name="getConstructorCars">
+      <soap:operation soapAction="urn:localhost-Results#getConstructorCars" />
+
+      <input>
+      <soap:body use="encoded" namespace="urn:localhost-Results"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </input>
+
+      <output>
+        <soap:body use="encoded" namespace="urn:localhost-Results"
+          encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </output>
+    </operation>
+
+    <operation name="getCarsEngineConstructor">
+      <soap:operation soapAction="urn:localhost-Results#getCarsEngineConstructor" />
+
+      <input>
+      <soap:body use="encoded" namespace="urn:localhost-Results"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </input>
+
+      <output>
+        <soap:body use="encoded" namespace="urn:localhost-Results"
+          encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </output>
+    </operation>
+  </binding>
+
+  <service name="ResultsService">
+    <port name="ResultsPort" binding="ResultsBinding">
+      <soap:address location="http://localhost:8080/ca-jwt/JWTServer/index.php" />
+    </port>
+  </service>
+</definitions>

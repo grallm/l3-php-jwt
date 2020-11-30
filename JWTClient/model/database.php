@@ -11,15 +11,6 @@ try {
    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
    error_reporting(E_ALL);
 } catch (PDOException $ex) {
-   //echo "Connection Failure Error is " . $ex->getMessage();
    // redirect to an error page passing the error message
-   header("Location:error.php?msg=" . $ex->getMessage());
+   header("Location: error.php?msg=" . $ex->getMessage());
 }
-
-
-
-
-
-
-
-
