@@ -32,6 +32,16 @@ function getUserFromJwt($jwtKey) {
 }
 
 /**
+ * Check if user is allowed to access Premium service
+ * @return boolean allowed or not
+ */
+function userAllowedPremium ($user) {
+  $premiumExpiryTst = strtotime($user['premium_expires']);
+  // Premium if not null and expiry > now
+  return is_null($premiumExpiryTst) ? false : ($premiumExpiryTst > time());
+}
+
+/**
  * Register a user, generate a JWT API key
  * @return string JWT API key
  */
@@ -105,7 +115,7 @@ function getUserPremiumExpiry($jwtKey) {
 
 /**
  * Get all cars
- * 
+ * Allowed for free users but limited to 10/day
  * @return array All cars found 
  */
 function getAllCars($jwtKey) {
@@ -120,6 +130,27 @@ function getAllCars($jwtKey) {
         'code' => '0'
       ]
     ]);
+  }
+  
+  $dateReseted = (new DateTime($user['last_free_count_reset']))->format('Y-m-d');
+  $dateNow = (new DateTime())->format('Y-m-d');
+  // If already reseted today
+  if ($dateReseted == $dateNow) {
+    // Limit reched
+    if ($user['count_free_used'] > 9) {
+      return json_encode([
+        'error' => [
+          'message' => 'You reached the limit of this service for today',
+          'code' => '1'
+        ]
+      ]);
+    }
+
+    // Add 1 to count
+    // TODO
+  } else {
+    // Reset to 1
+    // TODO
   }
 
   $query = "SELECT * FROM cars";
@@ -147,6 +178,13 @@ function getConstructorCars($jwtKey, $constructor) {
     return json_encode([
       'error' => [
         'message' => 'Invalid API Key',
+        'code' => '0'
+      ]
+    ]);
+  } else if (!userAllowedPremium($user)) {
+    return json_encode([
+      'error' => [
+        'message' => 'You need Premium to access this service',
         'code' => '0'
       ]
     ]);
@@ -179,6 +217,13 @@ function getCarsEngineConstructor($jwtKey, $constructor, $engine) {
     return json_encode([
       'error' => [
         'message' => 'Invalid API Key',
+        'code' => '0'
+      ]
+    ]);
+  } else if (!userAllowedPremium($user)) {
+    return json_encode([
+      'error' => [
+        'message' => 'You need Premium to access this service',
         'code' => '0'
       ]
     ]);

@@ -45,6 +45,8 @@ if ($whichPage == 'constructorCars' || $whichPage == 'engineConstructorCars') {
 
   if (is_null($cars) || sizeof($cars) == 0) {
     echo '<h5>No cars to display</h5>';
+  } else if (isset($cars->error)) {
+    echo '<h5 class="text-danger">' . $cars->error->message . '</h5>';
   } else {
     $displayList = '';
     
