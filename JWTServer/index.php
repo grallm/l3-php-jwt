@@ -147,10 +147,20 @@ function getAllCars($jwtKey) {
     }
 
     // Add 1 to count
-    // TODO
+    $query = "UPDATE users SET count_free_used = count_free_used + 1 WHERE id = ?";
+
+    $statement = $db->prepare($query);
+    $statement->execute([
+      $user['id']
+    ]);
   } else {
     // Reset to 1
-    // TODO
+    $query = "UPDATE users SET count_free_used = 1, last_free_count_reset = NOW() WHERE id = ?";
+
+    $statement = $db->prepare($query);
+    $statement->execute([
+      $user['id']
+    ]);
   }
 
   $query = "SELECT * FROM cars";
@@ -185,7 +195,7 @@ function getConstructorCars($jwtKey, $constructor) {
     return json_encode([
       'error' => [
         'message' => 'You need Premium to access this service',
-        'code' => '0'
+        'code' => '2'
       ]
     ]);
   }
@@ -224,7 +234,7 @@ function getCarsEngineConstructor($jwtKey, $constructor, $engine) {
     return json_encode([
       'error' => [
         'message' => 'You need Premium to access this service',
-        'code' => '0'
+        'code' => '2'
       ]
     ]);
   }
