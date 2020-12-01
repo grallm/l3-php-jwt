@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 30, 2020 at 07:18 PM
+-- Generation Time: Dec 01, 2020 at 02:41 PM
 -- Server version: 5.7.26
 -- PHP Version: 7.4.2
 
@@ -48,7 +48,7 @@ INSERT INTO `cars` (`id`, `name`, `constructor`, `engine`, `image`) VALUES
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
-  `jwt_api_key` text NOT NULL,
+  `jwt_api_key` text,
   `count_free_used` int(11) NOT NULL DEFAULT '0',
   `last_free_count_reset` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `premium_expires` date DEFAULT NULL
@@ -59,7 +59,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `jwt_api_key`, `count_free_used`, `last_free_count_reset`, `premium_expires`) VALUES
-(1, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.W10.ojSZ_lUJbYYSHELAw4MsZ5pZJfLywuqGEUvg0ZcI9R8', 0, '2020-11-30 11:01:07', '2021-07-01');
+(1, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI2IiwiaWF0IjoxNjA2ODMzNjI1fQ.1CWKtPYs3VTBNGxECZiSD-M8deKrnR3pW0JddPl1x5Q', 0, '2020-12-01 14:40:25', NULL);
 
 --
 -- Indexes for dumped tables

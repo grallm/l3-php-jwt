@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 30, 2020 at 07:18 PM
+-- Generation Time: Dec 01, 2020 at 02:41 PM
 -- Server version: 5.7.26
 -- PHP Version: 7.4.2
 
@@ -32,7 +32,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `jwt_api_key`, `login`, `password`) VALUES
-(14, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.W10.ojSZ_lUJbYYSHELAw4MsZ5pZJfLywuqGEUvg0ZcI9R8', 'malo', 'malo');
+(1, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI2IiwiaWF0IjoxNjA2ODMzNjI1fQ.1CWKtPYs3VTBNGxECZiSD-M8deKrnR3pW0JddPl1x5Q', 'malo', 'malo');
 
 --
 -- Indexes for dumped tables
@@ -53,4 +53,4 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;

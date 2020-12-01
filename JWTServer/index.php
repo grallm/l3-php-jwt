@@ -49,12 +49,28 @@ function registerUser() {
   global $db;
   global $secret;
 
-  $jwt = JWT::encode(array(), $secret);
-
-  $query = "INSERT INTO users (jwt_api_key) VALUES (?)";
-
+  // Create user
+  $query = "INSERT INTO users () VALUES ()";
+  
   $statement = $db->prepare($query);
-  $statement->execute([$jwt]);
+  $statement->execute();
+  
+  // Encode API key with userId and created date
+  $userId = $db->lastInsertId();
+  $jwt = JWT::encode(array(
+    'userId' => $userId,
+    // Issued at
+    'iat' => time()
+  ), $secret);
+
+  // Add JWT user
+  $query = "UPDATE users SET jwt_api_key = ? WHERE id = ?";
+  
+  $statement = $db->prepare($query);
+  $statement->execute([
+    $jwt,
+    $userId
+  ]);
 
   return $jwt;
 }

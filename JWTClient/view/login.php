@@ -3,7 +3,7 @@
 <h3>Login to Webservice</h3>
 
 <?php if (isset($_SESSION['error'])) { ?>
-  <div class="alert alert-danger"><?php echo $_GET['error'] ?></div>
+  <div class="alert alert-danger"><?php echo $_SESSION['error'] ?></div>
 <?php
   }
   unset($_SESSION['error']);
