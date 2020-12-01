@@ -48,6 +48,7 @@
           </span>
         ' ?>
       <a class="btn btn-outline-primary btn-sm ml-lg-2" href="?action=premium">Subscribe 1 month</a>
+      <a class="btn btn-outline-danger btn-sm ml-lg-2" href="?action=disconnect">Log out</a>
     </div>
   </div>
 </nav>
