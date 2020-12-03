@@ -146,37 +146,38 @@ function getAllCars($jwtKey) {
         'code' => '0'
       ]
     ]);
-  }
+  } else if (!userAllowedPremium($user)) {
+    // If user not Premium, check if limit reached
+    $dateReseted = (new DateTime($user['last_free_count_reset']))->format('Y-m-d');
+    $dateNow = (new DateTime())->format('Y-m-d');
+    // If already reseted today
+    if ($dateReseted == $dateNow) {
+      // Limit reched
+      if ($user['count_free_used'] > 9) {
+        return json_encode([
+          'error' => [
+            'message' => 'You reached the limit of this service for today. Be Premium to get unlimited access',
+            'code' => '1'
+          ]
+        ]);
+      }
   
-  $dateReseted = (new DateTime($user['last_free_count_reset']))->format('Y-m-d');
-  $dateNow = (new DateTime())->format('Y-m-d');
-  // If already reseted today
-  if ($dateReseted == $dateNow) {
-    // Limit reched
-    if ($user['count_free_used'] > 9) {
-      return json_encode([
-        'error' => [
-          'message' => 'You reached the limit of this service for today',
-          'code' => '1'
-        ]
+      // Add 1 to count
+      $query = "UPDATE users SET count_free_used = count_free_used + 1 WHERE id = ?";
+  
+      $statement = $db->prepare($query);
+      $statement->execute([
+        $user['id']
+      ]);
+    } else {
+      // Reset to 1
+      $query = "UPDATE users SET count_free_used = 1, last_free_count_reset = NOW() WHERE id = ?";
+  
+      $statement = $db->prepare($query);
+      $statement->execute([
+        $user['id']
       ]);
     }
-
-    // Add 1 to count
-    $query = "UPDATE users SET count_free_used = count_free_used + 1 WHERE id = ?";
-
-    $statement = $db->prepare($query);
-    $statement->execute([
-      $user['id']
-    ]);
-  } else {
-    // Reset to 1
-    $query = "UPDATE users SET count_free_used = 1, last_free_count_reset = NOW() WHERE id = ?";
-
-    $statement = $db->prepare($query);
-    $statement->execute([
-      $user['id']
-    ]);
   }
 
   $query = "SELECT * FROM cars";

@@ -164,7 +164,7 @@
 
   <service name="ResultsService">
     <port name="ResultsPort" binding="ResultsBinding">
-      <soap:address location="http://localhost:8080/ca-jwt/JWTServer/index.php" />
+      <soap:address location="http://localhost:8080/JWTServer/index.php" />
     </port>
   </service>
 </definitions>
